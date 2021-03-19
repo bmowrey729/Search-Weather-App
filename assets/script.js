@@ -2,19 +2,24 @@ $(document).ready(function () {
   var searchHistoryContainer = $('#past-searches');
   var searchForm = $('#search-form');
   var currentWeatherContainer = $('#current-weather');
-  var fiveDayForcast
+  var fiveDayForcastContainer  = $('#five-day-forcast');
   var apiKey = 'cd0b3fe1a800e29bb189f5148cda1151'
   var baseUrl = 'https://api.openweathermap.org/data/2.5/weather?';
+  var baseUrl2 ='https://api.openweathermap.org/data/2.5/forecast?'
+  var iconBaseUrl = 'http://openweathermap.org/img/w/'
   searchForm.submit(function (event) {
     event.preventDefault();
     console.log(event);
     var formValues = $(this).serializeArray();
     var city = formValues[0].value;
     var searchTermDiv = $('<div class ="past-search-term">');
+    
+   // var button = $('<button-type="buttton" class ="city-button>');
     searchTermDiv.text(city);
     searchHistoryContainer.append(searchTermDiv);
     console.log(formValues, city);
     searchForCurrentCityWeather(city);
+    searchForFiveDayForcastWeather(city);
   });
   function searchForCurrentCityWeather(city) {
     var fullUrl = baseUrl + "q=" + city + "&appid=" + apiKey;
@@ -29,18 +34,21 @@ $(document).ready(function () {
         var temp = data.main.temp;
         var humidity = data.main.humidity;
         var weather = data.weather;
+        var iconUrl = iconBaseUrl + weather[0].icon + '.png';
         var wind = data.wind
         var cityNameDiv = $("<div class='city-name'>")
         var tempDiv = $("<div class='temp-name'>")
         var humidityDiv = $("<div class='humidity-name'>")
-        var weatherDiv = $("<div class='icon-name'>")
+        var weatherImg = $("<img class='icon-name'/>")
         var windDiv = $("<div class='wind-name'>")
         cityNameDiv.text(cityName);
+        weatherImg.attr('src' ,iconUrl);
         tempDiv.text('Temperature:  ' + temp);
         humidityDiv.text('Humidity:  ' + humidity + '%');
         windDiv.text('Wend Speed: ' + wind.speed + ' MPH')
 
         currentWeatherContainer.append(cityNameDiv);
+        currentWeatherContainer.append(weatherImg);
         currentWeatherContainer.append(tempDiv);
         currentWeatherContainer.append(humidityDiv);
 
@@ -48,9 +56,49 @@ $(document).ready(function () {
       });
   }
   function searchForFiveDayForcastWeather(city) {
-
-  }
-
+    var forecastUrl = baseUrl2 + "q=" + city + "&appid=" + apiKey;
+    fetch(forecastUrl)
+    .then(function(response){
+      return response.json()
+    }).then(function(data){
+      console.log('Five day forcast',data);
+     
+      for (var i =0; i < data.list.length; i++){
+        
+       var isThreeOclock = data.list[i].dt_txt.search('15:00:00');
+       //var cityName = data.city.name;
+       if (isThreeOclock > -1){
+         var forcast = data.list[i];
+         var temp = forcast.main.temp;
+         var humidity = forcast.main.humidity;
+         var weather = forcast.weather;
+         var iconUrl = iconBaseUrl + weather[0].icon + '.png';
+         var wind = forcast.wind;
+         var day = moment(forcast.dt_txt).format('dddd, MMMM, Do');
+        console.log(forcast, temp,humidity,weather, wind, day);
+        var rowDiv = $("<div class='col-2'>");
+        var dayDiv = $("<div class='day-name'>")
+        var tempDiv = $("<div class='temp-name'>")
+        var humidityDiv = $("<div class='humidity-name'>")
+        var weatherImg = $("<img class='icon-name'/>")
+        var windDiv = $("<div class='wind-name'>")
+        weatherImg.attr('src', iconUrl);
+        dayDiv.text(day);
+        tempDiv.text('Temp: ' + temp);
+        humidityDiv.text('Humidity:  ' + humidity + '%');
+        windDiv.text('Wind Spd: ' + wind.speed + ' MPH')
+        rowDiv.append(dayDiv);
+        rowDiv.append(weatherImg);
+        rowDiv.append(tempDiv);
+        rowDiv.append(humidityDiv);
+        rowDiv.append(windDiv);
+        fiveDayForcastContainer.append(rowDiv);
+       }
+       
+      }
+    }
+    )}
+    
 });
 
 
