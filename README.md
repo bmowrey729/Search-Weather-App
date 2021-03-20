@@ -9,6 +9,6 @@ This project is a simple Weather App. To search for weather by city:
 * Unable to include the UV index due to time contraints.
 * API key has been removed from js file!!
 
-[URL] (https://bmowrey729.github.io/Work-Day-Scheduler/)
+[URL] (https://bmowrey729.github.io/Search-Weather-App/.)
 
 ![Screen Shot ](/assets/WeatherDash.PNG)
