@@ -8,6 +8,6 @@ This project is a simple Weather App. To search for weather by city:
 * Searches are saved to browser for future use.
 * Unable to include the UV index due to time contraints.
 
-[URL] (https://bmowrey729.github.io/Work-Day-Scheduler/)
+[URL] (https://bmowrey729.github.io/Search-Weather-App/.)
 
 ![Screen Shot ](/assets/WeatherDash.PNG)
