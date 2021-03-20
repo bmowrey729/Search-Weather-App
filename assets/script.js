@@ -4,7 +4,7 @@ $(document).ready(function () {
   var currentWeatherContainer = $('#current-weather');
   var fiveDayForcastContainer = $('#five-day-forcast');
   var searchValueInp = $('#search-value');
-  var apiKey = 'cd0b3fe1a800e29bb189f5148cda1151'
+  var apiKey = ''
   var baseUrl = 'https://api.openweathermap.org/data/2.5/weather?';
   var baseUrl2 = 'https://api.openweathermap.org/data/2.5/forecast?'
   var iconBaseUrl = 'http://openweathermap.org/img/w/'
